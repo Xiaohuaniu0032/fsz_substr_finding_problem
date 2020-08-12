@@ -1,0 +1,13 @@
+chr	start	seq
+chr1	5	ATAT
+chr1	7	ATAT
+chr1	5	ATAT
+chr1	7	ATAT
+chr1	5	ATAT
+chr1	7	ATAT
+chr2	5	ATAT
+chr2	7	ATAT
+chr2	5	ATAT
+chr2	7	ATAT
+chr2	5	ATAT
+chr2	7	ATAT
