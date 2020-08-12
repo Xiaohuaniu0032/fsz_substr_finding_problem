@@ -1,7 +1,3 @@
 chr	start	seq
 1	15	AGCT
-1	15	AGCT
-1	15	AGCT
-2	15	AGCT
-2	15	AGCT
 2	15	AGCT
