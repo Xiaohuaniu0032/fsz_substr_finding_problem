@@ -24,7 +24,7 @@ while (<FA>){
     chomp;
     if (/>chr/){
         $chr = $_;
-        $chr =~ s/^\>//;
+        $chr =~ s/^\>chr//;
         $pos = 0;
         $line = 0;
     }else{

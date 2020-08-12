@@ -1,7 +1,7 @@
 chr	start	seq
-chr1	15	AGCT
-chr1	15	AGCT
-chr1	15	AGCT
-chr2	15	AGCT
-chr2	15	AGCT
-chr2	15	AGCT
+1	15	AGCT
+1	15	AGCT
+1	15	AGCT
+2	15	AGCT
+2	15	AGCT
+2	15	AGCT
