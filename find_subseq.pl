@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 use Getopt::Long;
+use Data::Dumper;
 
 my ($fa, $queryseq, $outfile);
 
@@ -15,38 +16,41 @@ open O, ">$outfile" or die;
 print O "chr\tstart\tseq\n";
 
 
+# cat seq into long string
+my %chr2seq;
 my $chr;
-my $pos;
-my $line;
-
 open FA, "$fa" or die;
 while (<FA>){
     chomp;
     if (/>chr/){
         $chr = $_;
         $chr =~ s/^\>chr//;
-        $pos = 0;
-        $line = 0;
+        $chr2seq{$chr} = "";
     }else{
-        $line += 1;
-        print "processing $chr\. line $line\n";
-        my $seq = uc($_); # trans into upper
-        my $len = length($seq);
-        $pos = $pos + $len; # count pos
-        
-        for (my $i=0;$i<=$len-1;$i++){
-            my $ss = substr($seq,$i,length($queryseq));
-            if ($queryseq eq $ss){
-                my $idx = $i + 1;
-                print O "$chr\t$idx\t$ss\n";
-            }
-        }
+        my $seq = uc($_);
+        my $new = $chr2seq{$chr}.$seq;
+        $chr2seq{$chr} = $new;
     }
 }
 close FA;
+
+foreach my $chr (sort {$a <=> $b} keys %chr2seq){
+    # print "$chr\n";
+    my $seq = $chr2seq{$chr};
+    my $seq_len = length($seq);
+    print "processing chr $chr, chr len is $seq_len bp\n";
+    my $query_len = length($queryseq);
+    for (my $i=0;$i<=$seq_len-$query_len;$i++){
+        my $ss = substr($seq,$i,$query_len);
+        if (uc($queryseq) eq $ss){
+            my $pos = $i + 1;
+            print O "$chr\t$pos\t$ss\n";
+        }
+    }
+}
+
+# print(Dumper(\%chr2seq));
 close O;
-
-
 
 # besides the method above, we can also use the Burrows-Wheeler transform (BWT) and exact-matching algorithm to do the substring finding jobs.
 
@@ -60,3 +64,7 @@ close O;
 # besides the method above, we can also use a simper way to do the exact substring finding jobs.
 # step1: for each chr, get all positions of the first character in queryseq (this step will narrow the searching space);
 # step2: given the positions of the first character of queryseq, find the positions of the first two characters in queryseq; repeat this process until we find all the positions of this entire queryseq in this chr;
+
+
+
+
